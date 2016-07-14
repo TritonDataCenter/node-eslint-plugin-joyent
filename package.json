@@ -1,0 +1,20 @@
+{
+    "name": "eslint-plugin-joyent",
+    "version": "1.0.0",
+    "description": "Joyent's ESLint rules and configs.",
+    "keywords": [
+        "eslint",
+        "eslintconfig",
+        "eslintplugin",
+        "eslint-config",
+        "eslint-plugin"
+    ],
+    "homepage": "https://github.com/joyent/node-eslint-plugin-joyent",
+    "repository": {
+        "url": "https://github.com/joyent/node-eslint-plugin-joyent.git",
+        "type": "git"
+    },
+    "peerDependencies": {
+        "eslint": "2.x"
+    }
+}
