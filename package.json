@@ -1,6 +1,6 @@
 {
     "name": "eslint-plugin-joyent",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Joyent's ESLint rules and configs.",
     "keywords": [
         "eslint",
