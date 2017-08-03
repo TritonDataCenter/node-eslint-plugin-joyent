@@ -36,7 +36,7 @@ To use this repo, place the following in your `package.json`:
 ```json
 "devDependencies": {
     "eslint": "2.13.1",
-    "eslint-plugin-joyent": "1.1.0"
+    "eslint-plugin-joyent": "~1.2.0"
     ...
 },
 ```
@@ -45,7 +45,6 @@ You'll then want to update your `Makefile` to include the following:
 
 ```
 ESLINT		= ./node_modules/.bin/eslint
-ESLINT_CONF	= tools/eslint.node.conf
 ESLINT_FILES	= $(JS_FILES)
 
 ...
@@ -55,10 +54,10 @@ $(ESLINT): | $(NPM_EXEC)
 
 .PHONY: check
 check:: $(ESLINT)
-	$(ESLINT) -c $(ESLINT_CONF) $(ESLINT_FILES)
+	$(ESLINT) $(ESLINT_FILES)
 ```
 
-And create `tools/eslint.node.conf`:
+And create `.eslintrc`:
 
 ```json
 {
