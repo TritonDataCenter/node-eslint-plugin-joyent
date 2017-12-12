@@ -35,8 +35,8 @@ To use this repo, place the following in your `package.json`:
 
 ```json
 "devDependencies": {
-    "eslint": "2.13.1",
-    "eslint-plugin-joyent": "~1.3.0"
+    "eslint": "4.13.1",
+    "eslint-plugin-joyent": "~2.0.0"
     ...
 },
 ```
