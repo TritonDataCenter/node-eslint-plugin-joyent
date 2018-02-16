@@ -41,23 +41,19 @@ To use this repo, place the following in your `package.json`:
 },
 ```
 
-You'll then want to update your `Makefile` to include the following:
+You'll then want to update to the latest set of Makefiles from
+[eng.git](https://github.com/joyent/eng/tree/master/tools/mk), and put the
+following in your repository's `Makefile`:
 
-```
-ESLINT		= ./node_modules/.bin/eslint
+```make
 ESLINT_FILES	= $(JS_FILES)
-
-...
-
-$(ESLINT): | $(NPM_EXEC)
-	$(NPM) install
-
-.PHONY: check
-check:: $(ESLINT)
-	$(ESLINT) $(ESLINT_FILES)
 ```
 
-And create `.eslintrc`:
+If you have a target that gets run when building zone images for installing
+project dependencies, you may want to consider passing `--production` to
+`npm install` to avoid including ESLint in the resulting zone image.
+
+Then create `.eslintrc` at the top of the repository:
 
 ```json
 {
