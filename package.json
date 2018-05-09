@@ -7,12 +7,20 @@
         "eslintconfig",
         "eslintplugin",
         "eslint-config",
-        "eslint-plugin"
+        "eslint-plugin",
+        "joyent"
     ],
     "homepage": "https://github.com/joyent/node-eslint-plugin-joyent",
     "repository": {
         "url": "https://github.com/joyent/node-eslint-plugin-joyent.git",
         "type": "git"
+    },
+    "devDependencies": {
+        "eslint": "^4.13.1",
+        "eslint-config-prettier": "^2.9.0",
+        "eslint-plugin-prettier": "^2.6.0",
+        "eslint-plugin-joyent": "./",
+        "prettier": "^1.11.1"
     },
     "peerDependencies": {
         "eslint": "^4.10.0"
