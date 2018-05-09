@@ -1,7 +1,5 @@
 module.exports = {
-    rules: {
-
-    },
+    rules: {},
     configs: {
         style: require('./lib/config/style'),
         lint: require('./lib/config/lint')
