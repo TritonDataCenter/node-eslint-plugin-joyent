@@ -218,81 +218,78 @@ function loadInitialData(opts, callback) {
             'Creating initial networks from config file'
         );
 
-        vasync.pipeline(
-            {
-                funcs: [
-                    function initOverlayTag(_, cb) {
-                        var mtu;
+        vasync.flat.pipeline(
+            {},
+            [
+                function initOverlayTag(_, cb) {
+                    var mtu;
 
-                        if (!config.overlay.enabled) {
-                            setImmediate(cb);
-                            return;
-                        }
-
-                        /*
-                 * The minimum nic tag MTU is 1500, as that's what most physical
-                 * networks end up supporting. Therefore, if the overlay's MTU
-                 * is say, 1400 (a common non-Jumbo frame configuration), we
-                 * need to still create the nic tag at the minimum. Other
-                 * software needs to always be explicit about what MTU it
-                 * desires for the network (which has a much lower minimum MTU).
-                 */
-                        mtu = Math.max(
-                            constants.OVERLAY_MTU,
-                            constants.MTU_NICTAG_MIN
-                        );
-                        initNicTag(
-                            opts.app,
-                            log,
-                            {
-                                name: constants.OVERLAY_TAG,
-                                mtu: mtu
-                            },
-                            function XXX(tagErr, tag) {
-                                if (tagErr) {
-                                    cb(tagErr);
-                                    return;
-                                }
-
-                                if (tag) {
-                                    log.info(
-                                        { tag: tag },
-                                        'Created overlay nic tag'
-                                    );
-                                }
-                                cb();
-                            }
-                        );
-                    },
-                    function initNetworks(_, cb) {
-                        vasync.forEachParallel(
-                            {
-                                inputs: networks,
-                                func: function _createNetwork(name, cb2) {
-                                    initNetwork(
-                                        opts.app,
-                                        log,
-                                        name,
-                                        config.initialNetworks[name],
-                                        cb2
-                                    );
-                                }
-                            },
-                            function XXX(netErr) {
-                                if (netErr) {
-                                    cb(netErr);
-                                    return;
-                                }
-
-                                log.info(
-                                    'Initial networks loaded successfully'
-                                );
-                                cb();
-                            }
-                        );
+                    if (!config.overlay.enabled) {
+                        setImmediate(cb);
+                        return;
                     }
-                ]
-            },
+
+                    /*
+                     * The minimum nic tag MTU is 1500, as that's what most physical
+                     * networks end up supporting. Therefore, if the overlay's MTU
+                     * is say, 1400 (a common non-Jumbo frame configuration), we
+                     * need to still create the nic tag at the minimum. Other
+                     * software needs to always be explicit about what MTU it
+                     * desires for the network (which has a much lower minimum MTU).
+                     */
+                    mtu = Math.max(
+                        constants.OVERLAY_MTU,
+                        constants.MTU_NICTAG_MIN
+                    );
+                    initNicTag(
+                        opts.app,
+                        log,
+                        {
+                            name: constants.OVERLAY_TAG,
+                            mtu: mtu
+                        },
+                        function XXX(tagErr, tag) {
+                            if (tagErr) {
+                                cb(tagErr);
+                                return;
+                            }
+
+                            if (tag) {
+                                log.info(
+                                    { tag: tag },
+                                    'Created overlay nic tag'
+                                );
+                            }
+                            cb();
+                        }
+                    );
+                },
+                function initNetworks(_, cb) {
+                    vasync.forEachParallel(
+                        {
+                            inputs: networks,
+                            func: function _createNetwork(name, cb2) {
+                                initNetwork(
+                                    opts.app,
+                                    log,
+                                    name,
+                                    config.initialNetworks[name],
+                                    cb2
+                                );
+                            }
+                        },
+                        function XXX(netErr) {
+                            if (netErr) {
+                                cb(netErr);
+                                return;
+                            }
+
+                            log.info('Initial networks loaded successfully');
+                            cb();
+                        }
+                    );
+                }
+            ],
             function XXX(err, res) {
                 if (timeout) {
                     clearTimeout(timeout);
